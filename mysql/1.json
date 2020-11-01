@@ -1,0 +1,131 @@
+{
+    "steps": [
+      {
+        "join_preparation": {
+          "select#": 1,
+          "steps": [
+            {
+              "expanded_query": "/* select#1 */ select `salaries`.`emp_no` AS `emp_no`,`salaries`.`salary` AS `salary`,`salaries`.`from_date` AS `from_date`,`salaries`.`to_date` AS `to_date` from `salaries` where ((`salaries`.`from_date` = '1986-06-26') and (`salaries`.`to_date` = '1987-06-26'))"
+            }
+          ] /* steps */
+        } /* join_preparation */
+      },
+      {
+        "join_optimization": {
+          "select#": 1,
+          "steps": [
+            {
+              "condition_processing": {
+                "condition": "WHERE",
+                "original_condition": "((`salaries`.`from_date` = '1986-06-26') and (`salaries`.`to_date` = '1987-06-26'))",
+                "steps": [
+                  {
+                    "transformation": "equality_propagation",
+                    "resulting_condition": "(multiple equal('1986-06-26', `salaries`.`from_date`) and multiple equal('1987-06-26', `salaries`.`to_date`))"
+                  },
+                  {
+                    "transformation": "constant_propagation",
+                    "resulting_condition": "(multiple equal('1986-06-26', `salaries`.`from_date`) and multiple equal('1987-06-26', `salaries`.`to_date`))"
+                  },
+                  {
+                    "transformation": "trivial_condition_removal",
+                    "resulting_condition": "(multiple equal(DATE'1986-06-26', `salaries`.`from_date`) and multiple equal(DATE'1987-06-26', `salaries`.`to_date`))"
+                  }
+                ] /* steps */
+              } /* condition_processing */
+            },
+            {
+              "substitute_generated_columns": {
+              } /* substitute_generated_columns */
+            },
+            {
+              "table_dependencies": [
+                {
+                  "table": "`salaries`",
+                  "row_may_be_null": false,
+                  "map_bit": 0,
+                  "depends_on_map_bits": [
+                  ] /* depends_on_map_bits */
+                }
+              ] /* table_dependencies */
+            },
+            {
+              "ref_optimizer_key_uses": [
+              ] /* ref_optimizer_key_uses */
+            },
+            {
+              "rows_estimation": [
+                {
+                  "table": "`salaries`",
+                  "table_scan": {
+                    "rows": 2628743,
+                    "cost": 5672
+                  } /* table_scan */
+                }
+              ] /* rows_estimation */
+            },
+            {
+              "considered_execution_plans": [
+                {
+                  "plan_prefix": [
+                  ] /* plan_prefix */,
+                  "table": "`salaries`",
+                  "best_access_path": {
+                    "considered_access_paths": [
+                      {
+                        "rows_to_scan": 2628743,
+                        "access_type": "scan",
+                        "resulting_rows": 2.63e6,
+                        "cost": 268546,
+                        "chosen": true
+                      }
+                    ] /* considered_access_paths */
+                  } /* best_access_path */,
+                  "condition_filtering_pct": 100,
+                  "rows_for_plan": 2.63e6,
+                  "cost_for_plan": 268546,
+                  "chosen": true
+                }
+              ] /* considered_execution_plans */
+            },
+            {
+              "attaching_conditions_to_tables": {
+                "original_condition": "((`salaries`.`to_date` = DATE'1987-06-26') and (`salaries`.`from_date` = DATE'1986-06-26'))",
+                "attached_conditions_computation": [
+                ] /* attached_conditions_computation */,
+                "attached_conditions_summary": [
+                  {
+                    "table": "`salaries`",
+                    "attached": "((`salaries`.`to_date` = DATE'1987-06-26') and (`salaries`.`from_date` = DATE'1986-06-26'))"
+                  }
+                ] /* attached_conditions_summary */
+              } /* attaching_conditions_to_tables */
+            },
+            {
+              "finalizing_table_conditions": [
+                {
+                  "table": "`salaries`",
+                  "original_table_condition": "((`salaries`.`to_date` = DATE'1987-06-26') and (`salaries`.`from_date` = DATE'1986-06-26'))",
+                  "final_table_condition   ": "((`salaries`.`to_date` = DATE'1987-06-26') and (`salaries`.`from_date` = DATE'1986-06-26'))"
+                }
+              ] /* finalizing_table_conditions */
+            },
+            {
+              "refine_plan": [
+                {
+                  "table": "`salaries`"
+                }
+              ] /* refine_plan */
+            }
+          ] /* steps */
+        } /* join_optimization */
+      },
+      {
+        "join_execution": {
+          "select#": 1,
+          "steps": [
+          ] /* steps */
+        } /* join_execution */
+      }
+    ] /* steps */
+  }
