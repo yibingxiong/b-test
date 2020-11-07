@@ -51,16 +51,95 @@
             },
             {
               "ref_optimizer_key_uses": [
+                {
+                  "table": "`salaries`",
+                  "field": "from_date",
+                  "equals": "DATE'1986-06-26'",
+                  "null_rejecting": false
+                },
+                {
+                  "table": "`salaries`",
+                  "field": "to_date",
+                  "equals": "DATE'1987-06-26'",
+                  "null_rejecting": false
+                }
               ] /* ref_optimizer_key_uses */
             },
             {
               "rows_estimation": [
                 {
                   "table": "`salaries`",
-                  "table_scan": {
-                    "rows": 2628743,
-                    "cost": 5672
-                  } /* table_scan */
+                  "range_analysis": {
+                    "table_scan": {
+                      "rows": 2628743,
+                      "cost": 266191
+                    } /* table_scan */,
+                    "potential_range_indexes": [
+                      {
+                        "index": "PRIMARY",
+                        "usable": false,
+                        "cause": "not_applicable"
+                      },
+                      {
+                        "index": "from_date_to_date_idx",
+                        "usable": true,
+                        "key_parts": [
+                          "from_date",
+                          "to_date",
+                          "emp_no"
+                        ] /* key_parts */
+                      }
+                    ] /* potential_range_indexes */,
+                    "setup_range_conditions": [
+                    ] /* setup_range_conditions */,
+                    "group_index_range": {
+                      "chosen": false,
+                      "cause": "not_group_by_or_distinct"
+                    } /* group_index_range */,
+                    "skip_scan_range": {
+                      "potential_skip_scan_indexes": [
+                        {
+                          "index": "from_date_to_date_idx",
+                          "usable": false,
+                          "cause": "query_references_nonkey_column"
+                        }
+                      ] /* potential_skip_scan_indexes */
+                    } /* skip_scan_range */,
+                    "analyzing_range_alternatives": {
+                      "range_scan_alternatives": [
+                        {
+                          "index": "from_date_to_date_idx",
+                          "ranges": [
+                            "0xda840f <= from_date <= 0xda840f AND 0xda860f <= to_date <= 0xda860f"
+                          ] /* ranges */,
+                          "index_dives_for_eq_ranges": true,
+                          "rowid_ordered": true,
+                          "using_mrr": false,
+                          "index_only": false,
+                          "rows": 86,
+                          "cost": 59.455,
+                          "chosen": true
+                        }
+                      ] /* range_scan_alternatives */,
+                      "analyzing_roworder_intersect": {
+                        "usable": false,
+                        "cause": "too_few_roworder_scans"
+                      } /* analyzing_roworder_intersect */
+                    } /* analyzing_range_alternatives */,
+                    "chosen_range_access_summary": {
+                      "range_access_plan": {
+                        "type": "range_scan",
+                        "index": "from_date_to_date_idx",
+                        "rows": 86,
+                        "ranges": [
+                          "0xda840f <= from_date <= 0xda840f AND 0xda860f <= to_date <= 0xda860f"
+                        ] /* ranges */
+                      } /* range_access_plan */,
+                      "rows_for_plan": 86,
+                      "cost_for_plan": 59.455,
+                      "chosen": true
+                    } /* chosen_range_access_summary */
+                  } /* range_analysis */
                 }
               ] /* rows_estimation */
             },
@@ -73,17 +152,25 @@
                   "best_access_path": {
                     "considered_access_paths": [
                       {
-                        "rows_to_scan": 2628743,
-                        "access_type": "scan",
-                        "resulting_rows": 2.63e6,
-                        "cost": 268546,
+                        "access_type": "ref",
+                        "index": "from_date_to_date_idx",
+                        "rows": 86,
+                        "cost": 58.861,
                         "chosen": true
+                      },
+                      {
+                        "access_type": "range",
+                        "range_details": {
+                          "used_index": "from_date_to_date_idx"
+                        } /* range_details */,
+                        "chosen": false,
+                        "cause": "heuristic_index_cheaper"
                       }
                     ] /* considered_access_paths */
                   } /* best_access_path */,
                   "condition_filtering_pct": 100,
-                  "rows_for_plan": 2.63e6,
-                  "cost_for_plan": 268546,
+                  "rows_for_plan": 86,
+                  "cost_for_plan": 58.861,
                   "chosen": true
                 }
               ] /* considered_execution_plans */
@@ -106,7 +193,7 @@
                 {
                   "table": "`salaries`",
                   "original_table_condition": "((`salaries`.`to_date` = DATE'1987-06-26') and (`salaries`.`from_date` = DATE'1986-06-26'))",
-                  "final_table_condition   ": "((`salaries`.`to_date` = DATE'1987-06-26') and (`salaries`.`from_date` = DATE'1986-06-26'))"
+                  "final_table_condition   ": null
                 }
               ] /* finalizing_table_conditions */
             },
